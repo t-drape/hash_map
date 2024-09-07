@@ -88,6 +88,11 @@ class HashMap
     prev_node.next_node = node.next_node
     return_val
   end
+
+  def clear
+    @buckets = Array.new(16)
+    @length = 0
+  end
 end
 
 hash_map = HashMap.new
@@ -97,5 +102,6 @@ hash_map.set('CARLOS', 'hola')
 hash_map.set('ClaraS', 'holaaaaaa')
 hash_map.set('RANDOMBLOKE', 'oyy')
 # p hash_map.remove('ClaraS')
-p hash_map
 p hash_map.length
+hash_map.clear
+p hash_map
