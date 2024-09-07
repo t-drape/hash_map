@@ -4,7 +4,7 @@ require_relative('node')
 
 # A Class Model for the Hash Map Data Structure
 class HashMap
-  attr_reader :length
+  attr_reader :length, :buckets
 
   def initialize
     @buckets = Array.new(16)
@@ -18,14 +18,18 @@ class HashMap
 
     key.each_char { |char| hash_code = prime_number * hash_code + char.ord }
 
-    hash_code % 16
+    hash_code % 32
   end
 
   def hash_map_grow
     return unless @length > (@buckets.length * @load_factor)
 
-    new_arr = Array.new(@buckets.length)
-    @buckets += new_arr
+    new_arr = entries
+    @buckets = Array.new(@buckets.length * 2)
+    @length = 0
+    new_arr.each do |key, value|
+      set(key, value)
+    end
   end
 
   def set(key, value)
@@ -129,11 +133,3 @@ class HashMap
 end
 
 hash_map = HashMap.new
-
-hash_map.set('CARLOS', 'hoolla')
-hash_map.set('CARLOS', 'hola')
-hash_map.set('ClaraS', 'holaaaaaa')
-hash_map.set('RANDOMBLOKE', 'oyy')
-# p hash_map.remove('ClaraS')
-p hash_map.length
-p hash_map.entries
