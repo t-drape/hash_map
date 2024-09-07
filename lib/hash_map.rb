@@ -8,7 +8,7 @@ class HashMap
 
   def initialize
     @buckets = Array.new(16)
-    @load_factor = 0.8
+    @load_factor = 0.75
     @length = 0
   end
 
@@ -18,7 +18,7 @@ class HashMap
 
     key.each_char { |char| hash_code = prime_number * hash_code + char.ord }
 
-    hash_code % 32
+    hash_code % @buckets.length
   end
 
   def hash_map_grow
@@ -132,4 +132,24 @@ class HashMap
   end
 end
 
-hash_map = HashMap.new
+test = HashMap.new
+test.set('apple', 'red')
+test.set('banana', 'yellow')
+test.set('carrot', 'orange')
+test.set('dog', 'brown')
+test.set('elephant', 'gray')
+test.set('frog', 'green')
+test.set('grape', 'purple')
+test.set('hat', 'black')
+test.set('ice cream', 'white')
+test.set('jacket', 'blue')
+test.set('kite', 'pink')
+test.set('lion', 'golden')
+
+test.set('apple', 'green')
+test.set('lion', 'yellow')
+test.set('kite', 'orange')
+
+test.set('moon', 'silver')
+
+puts test.buckets.length
