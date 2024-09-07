@@ -4,10 +4,12 @@ require_relative('node')
 
 # A Class Model for the Hash Map Data Structure
 class HashMap
+  attr_reader :length
+
   def initialize
     @buckets = Array.new(16)
     @load_factor = 0.8
-    @entries = 0
+    @length = 0
   end
 
   def hash(key)
@@ -20,8 +22,7 @@ class HashMap
   end
 
   def hash_map_grow
-    @entries += 1
-    return unless @entries > @buckets.length * @load_factor
+    return unless @length > (@buckets.length * @load_factor)
 
     new_arr = Array.new(@buckets.length)
     @buckets += new_arr
@@ -43,8 +44,10 @@ class HashMap
         node.value = value
         return
       end
+      @length += 1
       node.next_node = Node.new(key, value)
     else
+      @length += 1
       @buckets[hash_val] = Node.new(key, value)
     end
   end
@@ -74,6 +77,7 @@ class HashMap
   def remove(key)
     return nil unless has?(key)
 
+    @length -= 1
     node = @buckets[hash(key)]
     prev_node = node
     until node.key == key
@@ -91,4 +95,7 @@ hash_map = HashMap.new
 hash_map.set('CARLOS', 'hoolla')
 hash_map.set('CARLOS', 'hola')
 hash_map.set('ClaraS', 'holaaaaaa')
-p hash_map.remove('ClaraS')
+hash_map.set('RANDOMBLOKE', 'oyy')
+# p hash_map.remove('ClaraS')
+p hash_map
+p hash_map.length
