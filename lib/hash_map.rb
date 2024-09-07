@@ -34,6 +34,7 @@ class HashMap
   end
 
   def set(key, value)
+    hash_map_grow
     hash_val = hash(key)
     if @buckets[hash_val]
       node = @buckets[hash_val]
@@ -52,6 +53,7 @@ class HashMap
       node.next_node = Node.new(key, value)
     else
       hash_map_grow
+
       @buckets[hash_val] = Node.new(key, value)
     end
   end
@@ -150,6 +152,9 @@ test.set('apple', 'green')
 test.set('lion', 'yellow')
 test.set('kite', 'orange')
 
+p test.buckets
 test.set('moon', 'silver')
 
-puts test.buckets.length
+# Change the hash map grow position, and also alter the length adjustment spot
+p test.buckets
+p test.remove('moon')
