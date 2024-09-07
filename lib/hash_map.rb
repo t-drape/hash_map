@@ -22,6 +22,7 @@ class HashMap
   end
 
   def hash_map_grow
+    @length += 1
     return unless @length > (@buckets.length * @load_factor)
 
     new_arr = entries
@@ -33,7 +34,6 @@ class HashMap
   end
 
   def set(key, value)
-    hash_map_grow
     hash_val = hash(key)
     if @buckets[hash_val]
       node = @buckets[hash_val]
@@ -48,10 +48,10 @@ class HashMap
         node.value = value
         return
       end
-      @length += 1
+      hash_map_grow
       node.next_node = Node.new(key, value)
     else
-      @length += 1
+      hash_map_grow
       @buckets[hash_val] = Node.new(key, value)
     end
   end
