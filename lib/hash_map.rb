@@ -59,12 +59,36 @@ class HashMap
     end
     nil
   end
+
+  def has?(key)
+    @buckets.each do |node|
+      until node.nil?
+        return true if node.key == key
+
+        node = node.next_node
+      end
+    end
+    false
+  end
+
+  def remove(key)
+    return nil unless has?(key)
+
+    node = @buckets[hash(key)]
+    prev_node = node
+    until node.key == key
+      prev_node = node
+      node = node.next_node
+    end
+    return_val = node.value
+    prev_node.next_node = node.next_node
+    return_val
+  end
 end
 
 hash_map = HashMap.new
 
 hash_map.set('CARLOS', 'hoolla')
-p hash_map
 hash_map.set('CARLOS', 'hola')
 hash_map.set('ClaraS', 'holaaaaaa')
-p hash_map
+p hash_map.remove('ClaraS')
