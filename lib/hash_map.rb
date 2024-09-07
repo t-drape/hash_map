@@ -35,22 +35,36 @@ class HashMap
       until node.next_node.nil?
         if node.key == key
           node.value = value
-          break
+          return
         end
         node = node.next_node
       end
       if node.key == key
         node.value = value
-      else
-        node.next_node = Node.new(key, value)
+        return
       end
+      node.next_node = Node.new(key, value)
     else
       @buckets[hash_val] = Node.new(key, value)
     end
+  end
+
+  def get(key)
+    hash_val = hash(key)
+    node = @buckets[hash_val]
+    until node.nil?
+      return node.value if node.key == key
+
+      node = node.next_node
+    end
+    nil
   end
 end
 
 hash_map = HashMap.new
 
 hash_map.set('CARLOS', 'hoolla')
+p hash_map
+hash_map.set('CARLOS', 'hola')
+hash_map.set('ClaraS', 'holaaaaaa')
 p hash_map
