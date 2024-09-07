@@ -104,6 +104,17 @@ class HashMap
     end
     return_array
   end
+
+  def values
+    return_array = []
+    @buckets.each do |node|
+      until node.nil?
+        return_array << node.value
+        node = node.next_node
+      end
+    end
+    return_array
+  end
 end
 
 hash_map = HashMap.new
@@ -114,4 +125,4 @@ hash_map.set('ClaraS', 'holaaaaaa')
 hash_map.set('RANDOMBLOKE', 'oyy')
 # p hash_map.remove('ClaraS')
 p hash_map.length
-p hash_map.keys
+p hash_map.values
