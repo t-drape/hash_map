@@ -22,7 +22,6 @@ class HashMap
   end
 
   def hash_map_grow
-    @length += 1
     return unless @length > (@buckets.length * @load_factor)
 
     new_arr = entries
@@ -33,30 +32,68 @@ class HashMap
     end
   end
 
-  def set(key, value)
-    hash_map_grow
+  def get_node(key)
     hash_val = hash(key)
-    if @buckets[hash_val]
-      node = @buckets[hash_val]
-      until node.next_node.nil?
-        if node.key == key
-          node.value = value
-          return
-        end
-        node = node.next_node
-      end
-      if node.key == key
-        node.value = value
-        return
-      end
-      hash_map_grow
-      node.next_node = Node.new(key, value)
-    else
-      hash_map_grow
+    node = @buckets[hash_val]
+    until node.nil?
+      return node if node.key == key
 
-      @buckets[hash_val] = Node.new(key, value)
+      node = node.next_node
+    end
+    nil
+  end
+
+  def node_item(hash_val)
+    node = @buckets[hash_val]
+    node = node.next_node until node.next_node.nil?
+    node.next_node = Node.new(key, value)
+  end
+
+  def set(key, value)
+    # 1. hash map grow
+    # 2. hash_val
+    # 3. increase length
+
+    if has?(key)
+      get_node(key).value = value
+    else
+      @length += 1
+      hash_map_grow
+      hash_val = hash(key)
+      if !@buckets[hash_val]
+        @buckets[hash_val] = Node.new(key, value)
+      else
+        node = @buckets[hash_val]
+        node = node.next_node until node.next_node.nil?
+        node.next_node = Node.new(key, value)
+      end
     end
   end
+
+  # def set(key, value)
+  #   hash_map_grow
+  #   hash_val = hash(key)
+  #   if @buckets[hash_val]
+  #     node = @buckets[hash_val]
+  #     until node.next_node.nil?
+  #       if node.key == key
+  #         node.value = value
+  #         return
+  #       end
+  #       node = node.next_node
+  #     end
+  #     if node.key == key
+  #       node.value = value
+  #       return
+  #     end
+  #     hash_map_grow
+  #     node.next_node = Node.new(key, value)
+  #   else
+  #     hash_map_grow
+
+  #     @buckets[hash_val] = Node.new(key, value)
+  #   end
+  # end
 
   def get(key)
     hash_val = hash(key)
@@ -152,9 +189,8 @@ test.set('apple', 'green')
 test.set('lion', 'yellow')
 test.set('kite', 'orange')
 
-p test.buckets
 test.set('moon', 'silver')
 
-# Change the hash map grow position, and also alter the length adjustment spot
-p test.buckets
+# Change the hash map grow position, and also alter the length adjustment spot, and the hash_val spot
+p test.buckets.length
 p test.remove('moon')
