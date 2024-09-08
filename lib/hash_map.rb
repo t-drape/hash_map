@@ -42,12 +42,6 @@ class HashMap
     nil
   end
 
-  def node_item(hash_val)
-    node = @buckets[hash_val]
-    node = node.next_node until node.next_node.nil?
-    node.next_node = Node.new(key, value)
-  end
-
   def append_node(hash_val, key, value)
     node = @buckets[hash_val]
     node = node.next_node until node.next_node.nil?
