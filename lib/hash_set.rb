@@ -121,20 +121,3 @@ class HashSet
     return_array
   end
 end
-
-test = HashSet.new
-test.set('apple')
-test.set('banana')
-test.set('carrot')
-test.set('dog')
-test.set('elephant')
-test.set('frog')
-test.set('grape')
-test.set('hat')
-test.set('ice cream')
-test.set('jacket')
-test.set('kite')
-test.set('lion')
-
-p test.has?('moon')
-p test.has?('apple')
