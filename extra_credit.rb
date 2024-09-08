@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require_relative('lib/hash_set')
+require_relative('lib/hash_set/hash_set')
 
 ec = HashSet.new
 

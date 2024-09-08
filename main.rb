@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require_relative('lib/hash_map')
+require_relative('lib/hash_map/hash_map')
 
 test = HashMap.new
 test.set('apple', 'red')
