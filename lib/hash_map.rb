@@ -15,13 +15,12 @@ class HashMap
   def hash(key)
     hash_code = 0
     prime_number = 31
-
     key.each_char { |char| hash_code = prime_number * hash_code + char.ord }
-
     hash_code % @buckets.length
   end
 
   def hash_map_grow
+    @length += 1
     return unless @length > (@buckets.length * @load_factor)
 
     new_arr = entries
@@ -49,51 +48,24 @@ class HashMap
     node.next_node = Node.new(key, value)
   end
 
+  def append_node(hash_val, key, value)
+    node = @buckets[hash_val]
+    node = node.next_node until node.next_node.nil?
+    node.next_node = Node.new(key, value)
+  end
+
   def set(key, value)
     # 1. hash map grow
     # 2. hash_val
     # 3. increase length
-
     if has?(key)
       get_node(key).value = value
     else
-      @length += 1
       hash_map_grow
       hash_val = hash(key)
-      if !@buckets[hash_val]
-        @buckets[hash_val] = Node.new(key, value)
-      else
-        node = @buckets[hash_val]
-        node = node.next_node until node.next_node.nil?
-        node.next_node = Node.new(key, value)
-      end
+      @buckets[hash_val] ? append_node(hash_val, key, value) : @buckets[hash_val] = Node.new(key, value)
     end
   end
-
-  # def set(key, value)
-  #   hash_map_grow
-  #   hash_val = hash(key)
-  #   if @buckets[hash_val]
-  #     node = @buckets[hash_val]
-  #     until node.next_node.nil?
-  #       if node.key == key
-  #         node.value = value
-  #         return
-  #       end
-  #       node = node.next_node
-  #     end
-  #     if node.key == key
-  #       node.value = value
-  #       return
-  #     end
-  #     hash_map_grow
-  #     node.next_node = Node.new(key, value)
-  #   else
-  #     hash_map_grow
-
-  #     @buckets[hash_val] = Node.new(key, value)
-  #   end
-  # end
 
   def get(key)
     hash_val = hash(key)
@@ -117,19 +89,26 @@ class HashMap
     false
   end
 
-  def remove(key)
-    return nil unless has?(key)
-
-    @length -= 1
-    node = @buckets[hash(key)]
+  def multi_remove(node, key)
     prev_node = node
     until node.key == key
       prev_node = node
       node = node.next_node
     end
-    return_val = node.value
     prev_node.next_node = node.next_node
-    return_val
+    node.value
+  end
+
+  def remove(key)
+    return nil unless has?(key)
+
+    @length -= 1
+    node = @buckets[hash(key)]
+    if node.key == key
+      @buckets[hash(key)] = nil
+      return node.value
+    end
+    multi_remove(node, key)
   end
 
   def clear
