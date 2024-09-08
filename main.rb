@@ -18,4 +18,4 @@ test.set('lion', 'golden')
 
 test.set('moon', 'silver')
 
-p test.keys
+p test.entries
