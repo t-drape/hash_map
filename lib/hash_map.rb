@@ -4,7 +4,7 @@ require_relative('node')
 
 # A Class Model for the Hash Map Data Structure
 class HashMap
-  attr_reader :length, :buckets
+  attr_reader :length
 
   def initialize
     @buckets = Array.new(16)
@@ -185,12 +185,6 @@ test.set('jacket', 'blue')
 test.set('kite', 'pink')
 test.set('lion', 'golden')
 
-test.set('apple', 'green')
-test.set('lion', 'yellow')
-test.set('kite', 'orange')
-
 test.set('moon', 'silver')
 
 # Change the hash map grow position, and also alter the length adjustment spot, and the hash_val spot
-p test.buckets.length
-p test.remove('moon')
