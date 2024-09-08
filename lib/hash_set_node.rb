@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# A Ruby class model of a node for the implementation of a HashMap
+# A Ruby class model of a node for the implementation of a HashSet
 class Node
   attr_accessor :key, :value, :next_node
 

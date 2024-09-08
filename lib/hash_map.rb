@@ -143,21 +143,3 @@ class HashMap
     return_array
   end
 end
-
-test = HashMap.new
-test.set('apple', 'red')
-test.set('banana', 'yellow')
-test.set('carrot', 'orange')
-test.set('dog', 'brown')
-test.set('elephant', 'gray')
-test.set('frog', 'green')
-test.set('grape', 'purple')
-test.set('hat', 'black')
-test.set('ice cream', 'white')
-test.set('jacket', 'blue')
-test.set('kite', 'pink')
-test.set('lion', 'golden')
-
-test.set('moon', 'silver')
-
-# Change the hash map grow position, and also alter the length adjustment spot, and the hash_val spot
